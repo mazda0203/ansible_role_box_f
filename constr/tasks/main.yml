@@ -1,0 +1,19 @@
+---
+# tasks file for constr
+- name: install packages
+  apt: name{{item}} state=latest
+  with_items:
+       - default-jdk
+       - maven
+       - git
+
+- name: git clone
+  git:
+   repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+   dest: /home/user1/hello/
+
+- name: build
+  command: mvn package
+  args:
+   chdir: /home/user1/hello/
+

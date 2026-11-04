@@ -1,0 +1,32 @@
+---
+- name: web conf
+  hosts: web
+  become: yes
+
+  roles:
+   - web
+
+- name: constr
+  hosts: db
+  become: yes
+
+  roles:
+   - constr
+
+- name: Fetch file from source host to controller
+  hosts: db
+  tasks:
+   - name: Get file from remote to controller
+     fetch:
+       src: /home/user1/hello/target/hello-1.0.war
+       dest: ./fetched_files/
+       flat: yes
+
+- name: Distribute file to target hosts
+  hosts: web
+  tasks:
+   - name: Copy fetched file to targets
+     copy:
+      src: ./fetched_files/hello-1.0.war
+      dest: /var/lib/tomcat9/webapps/hello-1.0.war
+      mode: "0644"
