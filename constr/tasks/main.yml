@@ -10,10 +10,9 @@
 - name: git clone
   git:
    repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-   dest: /home/user1/hello/
+   dest: dest={{ dest_folder }}
 
 - name: build
   command: mvn package
   args:
-   chdir: /home/user1/hello/
-
+   chdir: dest={{ dest_folder }}
